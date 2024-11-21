@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 import os
+import re
 
 URL = "https://qatask.netlify.app/"
 
@@ -71,20 +72,45 @@ def test_buttons_and_textboxes(driver):
         clear_button = driver.find_element(By.ID, 'clear')
         count_box = driver.find_element(By.ID, 'count')
         uuid_element = driver.find_element(By.ID, 'uuids')
-        assert generate_button.is_displayed(), log_test_result("test_buttons_and_textboxes", "fail", "Generate button is not displayed!")
-        assert clear_button.is_displayed(), log_test_result("test_buttons_and_textboxes", "fail", "Clear button is not displayed!")
-        assert count_box.is_displayed(), log_test_result("test_buttons_and_textboxes", "fail", "Count box is not displayed!")
-        assert uuid_element.is_displayed(), log_test_result("test_buttons_and_textboxes", "fail", "UUID element is not displayed!")
-        log_test_result("test_buttons_and_textboxes", "pass")
+        assert generate_button.is_displayed(), log_test_result("Test 2: test_buttons_and_textboxes", "fail", "Generate button is not displayed!")
+        assert clear_button.is_displayed(), log_test_result("Test 2: test_buttons_and_textboxes", "fail", "Clear button is not displayed!")
+        assert count_box.is_displayed(), log_test_result("Test 2: test_buttons_and_textboxes", "fail", "Count box is not displayed!")
+        assert uuid_element.is_displayed(), log_test_result("Test 2: test_buttons_and_textboxes", "fail", "UUID element is not displayed!")
+        log_test_result("Test 2: test_buttons_and_textboxes", "pass")
     except AssertionError as e:
-        log_test_result("test_buttons_and_textboxes", "fail", str(e))
+        log_test_result("Test 2: test_buttons_and_textboxes", "fail", str(e))
         raise
 
-#TODO
-# Test case 3 UI: Test uuid generation and format
-def test_generate_uuid(driver):
-    """Test the Generate button generates a UUID."""
+# Test case 3 UI: Test uuid generation and format. Generate 1 UUID, validate format and store it in a text file, raise error in case of failure.
+def test_generate_single_uuid(driver):
+    """Test the Generate button generates a UUID and generated uuid. store data in txt file in case of success."""
+    uuid_pattern = re.compile(r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$')
     try:
+            driver.refresh()
+            generate_button = driver.find_element(By.ID, 'generate')
+            generate_button.click()
+            uuid_element = driver.find_element(By.ID, 'uuids')
+            uuid_text = uuid_element.text
+            if uuid_text == "":
+                 assert False, log_test_result("Test 3:test_generate_single_uuid", "fail", f"uuid is not displayed!")
+            else:
+                assert uuid_pattern.match(uuid_text), log_test_result("Test 3: test_generate_single_uuid", "fail", f"Invalid UUID format: {uuid_text}")
+                log_test_result("Test 3: test_generate_single_uuid", "pass")
+                # Copy the UUID to the clipboard. This is a workaround for the issue with the clipboard not working in headless mode
+                driver.execute_script("navigator.clipboard.writeText(arguments[0]);", uuid_text)
+                # Store the generated UUID in a text file
+                with open("generated_single_uuid.txt", "a") as file:
+                    file.write(uuid_text + "\n")
+    except AssertionError as e:
+        log_test_result("Test 3: test_generate_single_uuid", "fail", str(e))
+        raise  # Re-raise the exception to ensure the test fails  
+
+
+# Test case 4 UI: Test genereate 10 UUIDs and store them in a text file. Raise error in case of failure. 
+def test_generate_10_uuid(driver):
+    """Test the Generate button generates a UUID and generated uuid. store data in txt file in case of success."""
+    try:
+        driver.refresh()
         for _ in range(10):
             generate_button = driver.find_element(By.ID, 'generate')
             generate_button.click()
@@ -92,40 +118,44 @@ def test_generate_uuid(driver):
             uuid_text = uuid_element.text
 
             if uuid_text == "":
-                 assert False, log_test_result("Test 3:test_generate_uuid", "fail", f"uuid is not displayed!")
+                 assert False, log_test_result("Test 4: test_generate_10_uuid", "fail", f"uuid is not displayed!")
             else:
-                log_test_result("test_generate_uuid", "pass")
-                # Copy the UUID to the clipboard (if needed)
+                # Copy the UUID to the clipboard. This is a workaround for the issue with the clipboard not working in headless mode
                 driver.execute_script("navigator.clipboard.writeText(arguments[0]);", uuid_text)
                 # Store the generated UUID in a text file
+                log_test_result("Test 4: test_generate_10_uuid", "pass")
                 with open("generated_uuid.txt", "a") as file:
                     file.write(uuid_text + "\n")
     except AssertionError as e:
-        log_test_result("Test 3: test_generate_uuid", "fail", str(e))
+        log_test_result("Test 4: test_generate_10_uuid", "fail", str(e))
         raise    
 
-
-
-
-# Test case 4 UI: Test the clear button
+# Test case 4 UI: Test the clear button. Generate a UUID and then clear it. Raise error in case of failure.
 def test_clear_uuid(driver):
     """Test the Clear button removes the UUID."""
+    driver.refresh()
     try:
+        generate_button = driver.find_element(By.ID, 'generate')
+        generate_button.click()
+        uuid_element = driver.find_element(By.ID, 'uuids')
+        uuid_text = uuid_element.text
+        if uuid_text == "":
+            assert False, log_test_result("Test 4: test_clear_uuid", "fail", "UUID is not displayed!")
         clear_button = driver.find_element(By.ID, 'clear')
         clear_button.click()
         uuid_element = driver.find_element(By.ID, 'uuids')
         assert uuid_element.text == "",  log_test_result("test_clear_uuid", "fail", "UUid is not cleared!")
     except AssertionError as e:
         log_test_result("test_clear_uuid", "fail", str(e))
-        raise    
+        raise  # Re-raise the exception to ensure the test fails  
 
 # TEST CASE 5: Test the count box and generate multiple UUIDs
-def generate_multiple_uuids_10(driver):
+def generate_multiple_uuids_100(driver):
     """Test adding 100 to the count box and generating multiple UUIDs."""
     try:
         count_box = driver.find_element(By.ID, 'count')
         count_box.clear()
-        count_box.send_keys("10")
+        count_box.send_keys("100")
     
         generate_button = driver.find_element(By.ID, 'generate')
         generate_button.click()
@@ -138,12 +168,12 @@ def generate_multiple_uuids_10(driver):
             assert False, "UUIDs were not generated!"
         else:
             uuids = uuid_text.split("\n")
-            assert len(uuids) == 10, "The number of UUIDs generated is not 10!"
+            assert len(uuids) == 100, "The number of UUIDs generated is not 10!"
             with open("generated_multiple_uuids.txt", "w") as file:
                 for uuid in uuids:
                     file.write(uuid + "\n")
     except AssertionError as e:
-        log_test_result("generate_multiple_uuids_10", "fail", str(e))
+        log_test_result("Test 5: generate_multiple_uuids_100", "fail", str(e))
         raise                
 
 # TEST CASE 6: Test the count box and generate multiple UUIDs
@@ -170,6 +200,6 @@ def test_generate_multiple_uuids_1000(driver):
                     file.write(uuid + "\n")
     except AssertionError as e:
         log_test_result("test_generate_multiple_uuids_1000", "fail", str(e))
-        raise                
-     
+        raise
+
 
