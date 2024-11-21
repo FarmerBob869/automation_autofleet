@@ -49,24 +49,24 @@ def driver():
     yield driver
     driver.quit()
     
-# Test case 1 UI: Test the page title and the presence of the <h1> element    
+# Test case 1 UI: Test the page title and the presence of the <h1> element.    
 def test_page_title(driver):
     """Test the presence of the <h1> element and its text."""
     try:
         driver.refresh()
         h1_element = driver.find_element(By.TAG_NAME, 'h1')
-        assert h1_element.is_displayed(), log_test_result("test_page_title", "fail", f"<h1> element is not displayed!")
-        assert h1_element.text == "UUID Generator", log_test_result("test_page_title", "fail", f"<h1> text is incorrect! Found: {h1_element.text}")
-        log_test_result("test_page_title", "pass")
+        assert h1_element.is_displayed(), log_test_result("Test 1: test_page_title", "fail", f"<h1> element is not displayed!")
+        assert h1_element.text == "UUID Generator", log_test_result("Test 1: test_page_title", "fail", f"<h1> text is incorrect! Found: {h1_element.text}")
+        log_test_result("Test 1: test_page_title", "pass")
     except AssertionError as e:
-        log_test_result("test_page_title", "fail", str(e))
+        log_test_result("Test 1: test_page_title", "fail", str(e))
         raise
 
-
-# Test case 2 UI: Test the presence of buttons and textboxes
+# Test case 2 UI: Refresh the page and test the presence of buttons and textboxes
 def test_buttons_and_textboxes(driver):
     """Test the presence of buttons and textboxes."""
     try:
+        driver.refresh()
         generate_button = driver.find_element(By.ID, 'generate')
         clear_button = driver.find_element(By.ID, 'clear')
         count_box = driver.find_element(By.ID, 'count')
@@ -80,25 +80,32 @@ def test_buttons_and_textboxes(driver):
         log_test_result("test_buttons_and_textboxes", "fail", str(e))
         raise
 
+#TODO
 # Test case 3 UI: Test uuid generation and format
 def test_generate_uuid(driver):
     """Test the Generate button generates a UUID."""
-    for _ in range(10):
-        generate_button = driver.find_element(By.ID, 'generate')
-        generate_button.click()
-        uuid_element = driver.find_element(By.ID, 'uuids')
-        uuid_text = uuid_element.text
+    try:
+        for _ in range(10):
+            generate_button = driver.find_element(By.ID, 'generate')
+            generate_button.click()
+            uuid_element = driver.find_element(By.ID, 'uuids')
+            uuid_text = uuid_element.text
 
-        if uuid_text == "":
-            log_test_result("test_generate_uuid", "fail", f"uuid is not displayed!")
-            assert False, "UUID was not generated!"
-        else:
-            log_test_result("test_generate_uuid", "pass")
-            # Copy the UUID to the clipboard (if needed)
-            driver.execute_script("navigator.clipboard.writeText(arguments[0]);", uuid_text)
-            # Store the generated UUID in a text file
-            with open("generated_uuid.txt", "a") as file:
-                file.write(uuid_text + "\n")
+            if uuid_text == "":
+                 assert False, log_test_result("Test 3:test_generate_uuid", "fail", f"uuid is not displayed!")
+            else:
+                log_test_result("test_generate_uuid", "pass")
+                # Copy the UUID to the clipboard (if needed)
+                driver.execute_script("navigator.clipboard.writeText(arguments[0]);", uuid_text)
+                # Store the generated UUID in a text file
+                with open("generated_uuid.txt", "a") as file:
+                    file.write(uuid_text + "\n")
+    except AssertionError as e:
+        log_test_result("Test 3: test_generate_uuid", "fail", str(e))
+        raise    
+
+
+
 
 # Test case 4 UI: Test the clear button
 def test_clear_uuid(driver):
@@ -154,9 +161,9 @@ def test_generate_multiple_uuids_1000(driver):
         uuid_text = uuid_element.text
     
         if uuid_text == "":
-            print("Error: UUIDs were not generated!")
-            assert False, "UUIDs were not generated!"
+            assert False, log_test_result("test_generate_multiple_uuids_1000", "fail", str(e))
         else:
+            log_test_result("test_generate_multiple_uuids_1000", "pass")  
             uuids = uuid_text.split("\n")
             with open("generated_multiple_uuids.txt", "w") as file:
                 for uuid in uuids:
@@ -164,5 +171,5 @@ def test_generate_multiple_uuids_1000(driver):
     except AssertionError as e:
         log_test_result("test_generate_multiple_uuids_1000", "fail", str(e))
         raise                
-
+     
 
