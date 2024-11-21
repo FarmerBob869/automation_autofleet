@@ -10,16 +10,29 @@ URL = "https://qatask.netlify.app/"
 @pytest.fixture(scope="module")
 def driver():
     """Set up the Selenium WebDriver."""
-    chromedriver_path = r"C:\Users\darwin\Documents\project\automation_autofleet\tests\chromedriver.exe"
-    
-    # Check if the file exists
-    if not os.path.isfile(chromedriver_path):
-        raise RuntimeError(f"chromedriver.exe not found at {chromedriver_path}")
+    if os.getenv('GITHUB_ACTIONS'):
+        # Running in GitHub Actions, use remote WebDriver
+        options = Options()
+        options.add_argument("--headless")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        driver = webdriver.Remote(
+            command_executor='http://localhost:4444/wd/hub',
+            options=options
+        )
+    else:
+        # Running locally, use local chromedriver
+        chromedriver_path = r"C:\Users\darwin\Documents\project\automation_autofleet\tests\chromedriver.exe"
+        
+        # Check if the file exists
+        if not os.path.isfile(chromedriver_path):
+            raise RuntimeError(f"chromedriver.exe not found at {chromedriver_path}")
 
-    service = Service(executable_path=chromedriver_path)
-    options = Options()
-    options.add_argument("--headless")
-    driver = webdriver.Chrome(service=service, options=options)
+        service = Service(executable_path=chromedriver_path)
+        options = Options()
+        options.add_argument("--headless")
+        driver = webdriver.Chrome(service=service, options=options)
+    
     driver.get(URL)
     yield driver
     driver.quit()
