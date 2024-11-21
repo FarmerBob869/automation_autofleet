@@ -40,4 +40,4 @@ jobs:
         path: |
           generated_uuid.txt
           generated_multiple_uuids.txt
-          testresult.txt
+          tests/testresult.txt
