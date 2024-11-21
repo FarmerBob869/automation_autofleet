@@ -202,4 +202,3 @@ def test_generate_multiple_uuids_1000(driver):
         log_test_result("test_generate_multiple_uuids_1000", "fail", str(e))
         raise
 
-

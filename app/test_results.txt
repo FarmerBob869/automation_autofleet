@@ -1,6 +1,0 @@
-============================= test session starts =============================
-platform win32 -- Python 3.13.0, pytest-8.3.3, pluggy-1.5.0
-rootdir: C:\Users\darwin\Documents\project\automation_autofleet\app
-collected 0 items
-
-============================= 2 warnings in 0.02s =============================
