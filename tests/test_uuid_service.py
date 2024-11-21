@@ -62,8 +62,6 @@ def test_buttons_and_textboxes(driver):
     assert count_box.is_displayed(), "Count box is not displayed!"
     assert uuid_element.is_displayed(), "UUID element is not displayed!"
 
-
-
 def test_generate_uuid(driver):
     """Test the Generate button generates a UUID."""
     for _ in range(10):
