@@ -31,3 +31,12 @@ jobs:
         SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
       run: |
         pytest
+
+    - name: Upload generated UUIDs
+      if: always()
+      uses: actions/upload-artifact@v2
+      with:
+        name: generated-uuids
+        path: |
+          generated_uuid.txt
+          generated_multiple_uuids.txt
