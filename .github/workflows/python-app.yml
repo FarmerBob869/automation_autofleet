@@ -32,12 +32,12 @@ jobs:
       run: |
         pytest
 
-    - name: Upload generated UUIDs
+    - name: Upload generated UUIDs and test results
       if: always()
       uses: actions/upload-artifact@v3
       with:
         name: generated-uuids
         path: |
-          tests/testresult.txt
           generated_uuid.txt
           generated_multiple_uuids.txt
+          testresult.txt
