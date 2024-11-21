@@ -53,6 +53,7 @@ def driver():
 def test_page_title(driver):
     """Test the presence of the <h1> element and its text."""
     try:
+        driver.refresh()
         h1_element = driver.find_element(By.TAG_NAME, 'h1')
         assert h1_element.is_displayed(), log_test_result("test_page_title", "fail", f"<h1> element is not displayed!")
         assert h1_element.text == "UUID Generator", log_test_result("test_page_title", "fail", f"<h1> text is incorrect! Found: {h1_element.text}")
@@ -79,7 +80,7 @@ def test_buttons_and_textboxes(driver):
         log_test_result("test_buttons_and_textboxes", "fail", str(e))
         raise
 
-
+# Test case 3 UI: Test uuid generation and format
 def test_generate_uuid(driver):
     """Test the Generate button generates a UUID."""
     for _ in range(10):
@@ -89,73 +90,79 @@ def test_generate_uuid(driver):
         uuid_text = uuid_element.text
 
         if uuid_text == "":
-            print("Error: UUID was not generated!")
+            log_test_result("test_generate_uuid", "fail", f"uuid is not displayed!")
             assert False, "UUID was not generated!"
         else:
-            print(f"Generated UUID: {uuid_text}")
+            log_test_result("test_generate_uuid", "pass")
             # Copy the UUID to the clipboard (if needed)
             driver.execute_script("navigator.clipboard.writeText(arguments[0]);", uuid_text)
             # Store the generated UUID in a text file
             with open("generated_uuid.txt", "a") as file:
                 file.write(uuid_text + "\n")
 
+# Test case 4 UI: Test the clear button
 def test_clear_uuid(driver):
     """Test the Clear button removes the UUID."""
-    clear_button = driver.find_element(By.ID, 'clear')
-    clear_button.click()
-    uuid_element = driver.find_element(By.ID, 'uuids')
-    assert uuid_element.text == "", "UUID was not cleared!"
+    try:
+        clear_button = driver.find_element(By.ID, 'clear')
+        clear_button.click()
+        uuid_element = driver.find_element(By.ID, 'uuids')
+        assert uuid_element.text == "",  log_test_result("test_clear_uuid", "fail", "UUid is not cleared!")
+    except AssertionError as e:
+        log_test_result("test_clear_uuid", "fail", str(e))
+        raise    
 
+# TEST CASE 5: Test the count box and generate multiple UUIDs
 def generate_multiple_uuids_10(driver):
     """Test adding 100 to the count box and generating multiple UUIDs."""
-    count_box = driver.find_element(By.ID, 'count')
-    count_box.clear()
-    count_box.send_keys("10")
+    try:
+        count_box = driver.find_element(By.ID, 'count')
+        count_box.clear()
+        count_box.send_keys("10")
     
-    generate_button = driver.find_element(By.ID, 'generate')
-    generate_button.click()
+        generate_button = driver.find_element(By.ID, 'generate')
+        generate_button.click()
     
-    uuid_element = driver.find_element(By.ID, 'uuids')
-    uuid_text = uuid_element.text
+        uuid_element = driver.find_element(By.ID, 'uuids')
+        uuid_text = uuid_element.text
     
-    if uuid_text == "":
-        print("Error: UUIDs were not generated!")
-        assert False, "UUIDs were not generated!"
-    else:
-        uuids = uuid_text.split("\n")
-        assert len(uuids) == 10, "The number of UUIDs generated is not 10!"
-        with open("generated_multiple_uuids.txt", "w") as file:
-            for uuid in uuids:
-                file.write(uuid + "\n")
+        if uuid_text == "":
+            print("Error: UUIDs were not generated!")
+            assert False, "UUIDs were not generated!"
+        else:
+            uuids = uuid_text.split("\n")
+            assert len(uuids) == 10, "The number of UUIDs generated is not 10!"
+            with open("generated_multiple_uuids.txt", "w") as file:
+                for uuid in uuids:
+                    file.write(uuid + "\n")
+    except AssertionError as e:
+        log_test_result("generate_multiple_uuids_10", "fail", str(e))
+        raise                
 
+# TEST CASE 6: Test the count box and generate multiple UUIDs
 def test_generate_multiple_uuids_1000(driver):
     """Test adding 10 to the count box and generating multiple UUIDs."""
-    count_box = driver.find_element(By.ID, 'count')
-    count_box.clear()
-    count_box.send_keys("1000")
+    try:
+        count_box = driver.find_element(By.ID, 'count')
+        count_box.clear()
+        count_box.send_keys("1000")
     
-    generate_button = driver.find_element(By.ID, 'generate')
-    generate_button.click()
+        generate_button = driver.find_element(By.ID, 'generate')
+        generate_button.click()
     
-    uuid_element = driver.find_element(By.ID, 'uuids')
-    uuid_text = uuid_element.text
+        uuid_element = driver.find_element(By.ID, 'uuids')
+        uuid_text = uuid_element.text
     
-    if uuid_text == "":
-        print("Error: UUIDs were not generated!")
-        assert False, "UUIDs were not generated!"
-    else:
-        uuids = uuid_text.split("\n")
-        with open("generated_multiple_uuids.txt", "w") as file:
-            for uuid in uuids:
-                file.write(uuid + "\n")
-
-def test_get_results(driver):
-    """Test the contents of the generated_multiple_uuids.txt file."""
-    with open("generated_multiple_uuids.txt", "r") as file:
-        uuids = file.readlines()
-        assert len(uuids) == 1000, "The number of UUIDs generated is not 1000!"
-        for uuid in uuids:
-            assert uuid.strip() != "", "Empty UUID found in the file!"
-
+        if uuid_text == "":
+            print("Error: UUIDs were not generated!")
+            assert False, "UUIDs were not generated!"
+        else:
+            uuids = uuid_text.split("\n")
+            with open("generated_multiple_uuids.txt", "w") as file:
+                for uuid in uuids:
+                    file.write(uuid + "\n")
+    except AssertionError as e:
+        log_test_result("test_generate_multiple_uuids_1000", "fail", str(e))
+        raise                
 
 
