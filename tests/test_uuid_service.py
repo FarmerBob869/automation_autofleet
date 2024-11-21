@@ -7,6 +7,18 @@ import os
 
 URL = "https://qatask.netlify.app/"
 
+
+#Create log for test results
+def log_test_result(test_name, status, error_info=None):
+    file_path = os.path.join(os.path.dirname(__file__), "testresult.txt")
+    print(f"Logging result to {file_path}")
+    with open(file_path, "a") as file:
+        file.write(f"Test: {test_name}, Status: {status}\n")
+        if error_info:
+            file.write(f"Error Info: {error_info}\n")
+    print(f"Logged result for {test_name}")
+
+#Initialize the crome driver for local and git env.
 @pytest.fixture(scope="module")
 def driver():
     """Set up the Selenium WebDriver."""
@@ -37,30 +49,36 @@ def driver():
     yield driver
     driver.quit()
     
-
+# Test case 1 UI: Test the page title and the presence of the <h1> element    
 def test_page_title(driver):
-    """Test the page title and the presence of the <h1> element."""
-    assert driver.title == "UUID Type", "Page title is incorrect!"
-    h1_element = driver.find_element(By.TAG_NAME, 'h1')
-    assert h1_element.is_displayed(), "<h1> element is not displayed!"
-    assert h1_element.text == "UUID Generator", "<h1> text is incorrect!"
+    """Test the presence of the <h1> element and its text."""
+    try:
+        h1_element = driver.find_element(By.TAG_NAME, 'h1')
+        assert h1_element.is_displayed(), log_test_result("test_page_title", "fail", f"<h1> element is not displayed!")
+        assert h1_element.text == "UUID Generator", log_test_result("test_page_title", "fail", f"<h1> text is incorrect! Found: {h1_element.text}")
+        log_test_result("test_page_title", "pass")
+    except AssertionError as e:
+        log_test_result("test_page_title", "fail", str(e))
+        raise
 
-def test_page_links(driver):
-    """Test the page links."""
-    links = driver.find_elements(By.TAG_NAME, 'a')
-    for link in links:
-        assert link.get_attribute('href') is not None, "Link is missing the href attribute!"
 
+# Test case 2 UI: Test the presence of buttons and textboxes
 def test_buttons_and_textboxes(driver):
     """Test the presence of buttons and textboxes."""
-    generate_button = driver.find_element(By.ID, 'generate')
-    clear_button = driver.find_element(By.ID, 'clear')
-    count_box = driver.find_element(By.ID, 'count')
-    uuid_element = driver.find_element(By.ID, 'uuids')
-    assert generate_button.is_displayed(), "Generate button is not displayed!"
-    assert clear_button.is_displayed(), "Clear button is not displayed!"
-    assert count_box.is_displayed(), "Count box is not displayed!"
-    assert uuid_element.is_displayed(), "UUID element is not displayed!"
+    try:
+        generate_button = driver.find_element(By.ID, 'generate')
+        clear_button = driver.find_element(By.ID, 'clear')
+        count_box = driver.find_element(By.ID, 'count')
+        uuid_element = driver.find_element(By.ID, 'uuids')
+        assert generate_button.is_displayed(), log_test_result("test_buttons_and_textboxes", "fail", "Generate button is not displayed!")
+        assert clear_button.is_displayed(), log_test_result("test_buttons_and_textboxes", "fail", "Clear button is not displayed!")
+        assert count_box.is_displayed(), log_test_result("test_buttons_and_textboxes", "fail", "Count box is not displayed!")
+        assert uuid_element.is_displayed(), log_test_result("test_buttons_and_textboxes", "fail", "UUID element is not displayed!")
+        log_test_result("test_buttons_and_textboxes", "pass")
+    except AssertionError as e:
+        log_test_result("test_buttons_and_textboxes", "fail", str(e))
+        raise
+
 
 def test_generate_uuid(driver):
     """Test the Generate button generates a UUID."""

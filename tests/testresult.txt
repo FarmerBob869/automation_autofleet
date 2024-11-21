@@ -1,0 +1,11 @@
+Test: test_page_title, Status: pass
+Test: test_page_title, Status: pass
+Test: test_page_title, Status: pass
+Test: test_buttons_and_textboxes, Status: fail
+Error Info: clear button is not displayed!
+Test: test_page_title, Status: pass
+Test: test_buttons_and_textboxes, Status: fail
+Error Info: clear button is not displayed!
+Test: test_page_title, Status: pass
+Test: test_buttons_and_textboxes, Status: pass
+Test: test_page_title, Status: pass
