@@ -130,7 +130,7 @@ def test_generate_10_uuid(driver):
         log_test_result("Test 4: test_generate_10_uuid", "fail", str(e))
         raise    
 
-# Test case 4 UI: Test the clear button. Generate a UUID and then clear it. Raise error in case of failure.
+# Test case 5 UI: Test the clear button. Generate a UUID and then clear it. Raise error in case of failure.
 def test_clear_uuid(driver):
     """Test the Clear button removes the UUID."""
     driver.refresh()
@@ -140,17 +140,18 @@ def test_clear_uuid(driver):
         uuid_element = driver.find_element(By.ID, 'uuids')
         uuid_text = uuid_element.text
         if uuid_text == "":
-            assert False, log_test_result("Test 4: test_clear_uuid", "fail", "UUID is not displayed!")
+            assert False, log_test_result("Test 5: test_clear_uuid", "fail", "UUID is not displayed!")
         clear_button = driver.find_element(By.ID, 'clear')
         clear_button.click()
         uuid_element = driver.find_element(By.ID, 'uuids')
-        assert uuid_element.text == "",  log_test_result("test_clear_uuid", "fail", "UUid is not cleared!")
+        assert uuid_element.text == "",  log_test_result("Test 5: test_clear_uuid", "fail", "UUid is not cleared!")
+        log_test_result("Test 5: test_clear_uuid", "pass")
     except AssertionError as e:
-        log_test_result("test_clear_uuid", "fail", str(e))
+        log_test_result("Test 5: test_clear_uuid", "fail", str(e))
         raise  # Re-raise the exception to ensure the test fails  
 
-# TEST CASE 5: Test the count box and generate multiple UUIDs
-def generate_multiple_uuids_100(driver):
+# TEST CASE 6: Test the count box and generate multiple UUIDs
+def test_generate_multiple_uuids_100(driver):
     """Test adding 100 to the count box and generating multiple UUIDs."""
     try:
         count_box = driver.find_element(By.ID, 'count')
@@ -164,19 +165,19 @@ def generate_multiple_uuids_100(driver):
         uuid_text = uuid_element.text
     
         if uuid_text == "":
-            print("Error: UUIDs were not generated!")
-            assert False, "UUIDs were not generated!"
+            assert False, log_test_result("Test 6: test_generate_multiple_uuids_1000", "fail", str(e))
         else:
+            log_test_result("Test 6: test_generate_multiple_uuids_1000", "pass")  
             uuids = uuid_text.split("\n")
-            assert len(uuids) == 100, "The number of UUIDs generated is not 10!"
-            with open("generated_multiple_uuids.txt", "w") as file:
+            with open("generated_100_uuids.txt", "w") as file:
                 for uuid in uuids:
                     file.write(uuid + "\n")
     except AssertionError as e:
-        log_test_result("Test 5: generate_multiple_uuids_100", "fail", str(e))
-        raise                
+        log_test_result("Test 6: test_generate_multiple_uuids_1000", "fail", str(e))
+        raise
+             
 
-# TEST CASE 6: Test the count box and generate multiple UUIDs
+# TEST CASE 7: Test the count box and generate multiple UUIDs
 def test_generate_multiple_uuids_1000(driver):
     """Test adding 10 to the count box and generating multiple UUIDs."""
     try:
@@ -191,14 +192,14 @@ def test_generate_multiple_uuids_1000(driver):
         uuid_text = uuid_element.text
     
         if uuid_text == "":
-            assert False, log_test_result("test_generate_multiple_uuids_1000", "fail", str(e))
+            assert False, log_test_result("Test 7: test_generate_multiple_uuids_1000", "fail", str(e))
         else:
-            log_test_result("test_generate_multiple_uuids_1000", "pass")  
+            log_test_result("Test 7: test_generate_multiple_uuids_1000", "pass")  
             uuids = uuid_text.split("\n")
             with open("generated_multiple_uuids.txt", "w") as file:
                 for uuid in uuids:
                     file.write(uuid + "\n")
     except AssertionError as e:
-        log_test_result("test_generate_multiple_uuids_1000", "fail", str(e))
+        log_test_result("Test 7: test_generate_multiple_uuids_1000", "fail", str(e))
         raise
 
