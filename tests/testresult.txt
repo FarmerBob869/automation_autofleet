@@ -14,3 +14,56 @@ Test: Test 4: test_generate_10_uuid, Status: pass
 Test: Test 5: test_clear_uuid, Status: pass
 Test: Test 6: test_generate_multiple_uuids_1000, Status: pass
 Test: Test 7: test_generate_multiple_uuids_1000, Status: pass
+Test: Test 1: test_page_title, Status: pass
+Test: Test 2: test_buttons_and_textboxes, Status: pass
+Test: Test 3: test_generate_single_uuid, Status: pass
+Test: Test 4: test_generate_10_uuid, Status: pass
+Test: Test 4: test_generate_10_uuid, Status: pass
+Test: Test 4: test_generate_10_uuid, Status: pass
+Test: Test 4: test_generate_10_uuid, Status: pass
+Test: Test 4: test_generate_10_uuid, Status: pass
+Test: Test 4: test_generate_10_uuid, Status: pass
+Test: Test 4: test_generate_10_uuid, Status: pass
+Test: Test 4: test_generate_10_uuid, Status: pass
+Test: Test 4: test_generate_10_uuid, Status: pass
+Test: Test 4: test_generate_10_uuid, Status: pass
+Test: Test 5: test_clear_uuid, Status: pass
+Test: Test 6: test_generate_multiple_uuids_1000, Status: pass
+Test: Test 7: test_generate_multiple_uuids_1000, Status: pass
+Test: Test 1: test_page_title, Status: pass
+Test: Test 2: test_buttons_and_textboxes, Status: pass
+Test: Test 3: test_generate_single_uuid, Status: pass
+Test: Test 4: test_generate_10_uuid, Status: pass
+Test: Test 4: test_generate_10_uuid, Status: pass
+Test: Test 4: test_generate_10_uuid, Status: pass
+Test: Test 4: test_generate_10_uuid, Status: pass
+Test: Test 4: test_generate_10_uuid, Status: pass
+Test: Test 4: test_generate_10_uuid, Status: pass
+Test: Test 4: test_generate_10_uuid, Status: pass
+Test: Test 4: test_generate_10_uuid, Status: pass
+Test: Test 4: test_generate_10_uuid, Status: pass
+Test: Test 4: test_generate_10_uuid, Status: pass
+Test: Test 5: test_clear_uuid, Status: pass
+Test: Test 6: test_generate_multiple_uuids_1000, Status: pass
+Test: Test 7: test_generate_multiple_uuids_1000, Status: pass
+Test: Test 1: test_page_title, Status: pass
+Test: Test 2: test_buttons_and_textboxes, Status: pass
+Test: Test 3: test_generate_single_uuid, Status: pass
+Test: Test 4: test_generate_10_uuid, Status: pass
+Test: Test 4: test_generate_10_uuid, Status: pass
+Test: Test 4: test_generate_10_uuid, Status: pass
+Test: Test 4: test_generate_10_uuid, Status: pass
+Test: Test 4: test_generate_10_uuid, Status: pass
+Test: Test 4: test_generate_10_uuid, Status: pass
+Test: Test 4: test_generate_10_uuid, Status: pass
+Test: Test 4: test_generate_10_uuid, Status: pass
+Test: Test 4: test_generate_10_uuid, Status: pass
+Test: Test 4: test_generate_10_uuid, Status: pass
+Test: Test 5: test_clear_uuid, Status: pass
+Test: Test 6: test_generate_multiple_uuids_100, Status: fail
+Error Info: Expected 100 UUIDs, but found 90
+Test: Test 6: test_generate_multiple_uuids_100, Status: fail
+Error Info: None
+assert 90 == 100
+ +  where 90 = len(['81a87f01-be48-4564-8b46-372b31be2a84', 'f8581d40-9bcd-47ab-b1a1-522f0d3b4613', '69eff9f0-fef7-4beb-a79b-984ad4bf7e3e...c595-6424-428b-8642-5332856a5a9d', 'b3f5f7f5-0c78-4403-8791-16a0403c914f', '6180277d-0fa0-4692-b892-e54aba1f0799', ...])
+Test: Test 7: test_generate_multiple_uuids_1000, Status: pass

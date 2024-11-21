@@ -150,7 +150,7 @@ def test_clear_uuid(driver):
         log_test_result("Test 5: test_clear_uuid", "fail", str(e))
         raise  # Re-raise the exception to ensure the test fails  
 
-# TEST CASE 6: Test the count box and generate multiple UUIDs
+# TEST CASE 6: Test generate 100 UUIDs
 def test_generate_multiple_uuids_100(driver):
     """Test adding 100 to the count box and generating multiple UUIDs."""
     try:
@@ -165,19 +165,20 @@ def test_generate_multiple_uuids_100(driver):
         uuid_text = uuid_element.text
     
         if uuid_text == "":
-            assert False, log_test_result("Test 6: test_generate_multiple_uuids_1000", "fail", str(e))
+            assert False, log_test_result("Test 6: test_generate_multiple_uuids_100", "fail", "UUIDs are not displayed!")
         else:
-            log_test_result("Test 6: test_generate_multiple_uuids_1000", "pass")  
             uuids = uuid_text.split("\n")
+            assert len(uuids) == 100, log_test_result("Test 6: test_generate_multiple_uuids_100", "fail", f"Expected 100 UUIDs, but found {len(uuids)}")
+            log_test_result("Test 6: test_generate_multiple_uuids_100", "pass")
             with open("generated_100_uuids.txt", "w") as file:
                 for uuid in uuids:
                     file.write(uuid + "\n")
     except AssertionError as e:
-        log_test_result("Test 6: test_generate_multiple_uuids_1000", "fail", str(e))
+        log_test_result("Test 6: test_generate_multiple_uuids_100", "fail", str(e))
         raise
              
 
-# TEST CASE 7: Test the count box and generate multiple UUIDs
+# TEST CASE 7: Test the count box and generate 1000 UUIDs
 def test_generate_multiple_uuids_1000(driver):
     """Test adding 10 to the count box and generating multiple UUIDs."""
     try:
