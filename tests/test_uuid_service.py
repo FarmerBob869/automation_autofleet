@@ -5,9 +5,8 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 import os
 import re
-from config import Config
 
-URL = Config.URL
+URL = "https://qatask.netlify.app/"
 
 
 #Create log for test results
