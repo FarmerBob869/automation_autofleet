@@ -204,3 +204,62 @@ def test_generate_multiple_uuids_1000(driver):
         log_test_result("Test 7: test_generate_multiple_uuids_1000", "fail", str(e))
         raise
 
+# TEST CASE 8: Test the 'Privacy Policy' link and validate the redirected page content.
+def test_privacy_policy_link(driver):
+    """Test the 'Privacy Policy' link and validate the redirected page content."""
+    try:
+        driver.refresh()
+        privacy_link = driver.find_element(By.XPATH, '//a[contains(text(), "Privacy policy")]')
+        assert privacy_link.is_displayed(), log_test_result("Test 8: test_privacy_policy_link", "fail", "'Privacy policy' link is not displayed!")
+        privacy_link.click()
+        driver.implicitly_wait(10)  # Wait for the page to load
+        h1_element = driver.find_element(By.TAG_NAME, 'h1')
+        assert h1_element.text.lower() == "privacy policy", log_test_result("Test 8: test_privacy_policy_link", "fail", "Redirected page title is incorrect!")
+        assert "please respect the privacy of others." in driver.page_source.lower(), log_test_result("Test 8: test_privacy_policy_link", "fail", "Redirected page content is incorrect!")
+        log_test_result("Test 8: test_privacy_policy_link", "pass")
+    except AssertionError as e:
+        log_test_result("Test 8: test_privacy_policy_link", "fail", str(e))
+        raise
+    except Exception as e:
+        log_test_result("Test 8: test_privacy_policy_link", "fail", str(e))
+        raise
+
+# TEST CASE 9: Test the 'About Us' link and validate the redirected page content.
+def test_about_us_link(driver):
+    """Test the 'About Us' link and validate the redirected page content."""
+    try:
+        driver.refresh()
+        about_link = driver.find_element(By.XPATH, '//a[contains(text(), "About Us")]')
+        assert about_link.is_displayed(), log_test_result("Test 9: test_about_us_link", "fail", "'About Us' link is not displayed!")
+        about_link.click()
+        driver.implicitly_wait(10)  # Wait for the page to load
+        h1_element = driver.find_element(By.TAG_NAME, 'h1')
+        assert h1_element.text.lower() == "about us", log_test_result("Test 9: test_about_us_link", "fail", "Redirected page title is incorrect!")
+        assert "we are a team of developers" in driver.page_source.lower(), log_test_result("Test 9: test_about_us_link", "fail", "Redirected page content is incorrect!")
+        log_test_result("Test 9: test_about_us_link", "pass")
+    except AssertionError as e:
+        log_test_result("Test 9: test_about_us_link", "fail", str(e))
+        raise
+    except Exception as e:
+        log_test_result("Test 9: test_about_us_link", "fail", str(e))
+        raise
+
+# TEST CASE 10: Test the 'Terms & conditions' link and validate the redirected page content.
+def test_terms_and_conditions_link(driver):
+    """Test the 'Terms & conditions' link and validate the redirected page content."""
+    try:
+        driver.refresh()
+        terms_link = driver.find_element(By.XPATH, '//a[contains(text(), "Terms & conditions")]')
+        assert terms_link.is_displayed(), log_test_result("Test 10: test_terms_and_conditions_link", "fail", "'Terms & conditions' link is not displayed!")
+        terms_link.click()
+        driver.implicitly_wait(10)  # Wait for the page to load
+        h1_element = driver.find_element(By.TAG_NAME, 'h1')
+        assert h1_element.text.lower() == "terms and conditions", log_test_result("Test 10: test_terms_and_conditions_link", "fail", "Redirected page title is incorrect!")
+        assert "you must use this responsibly. thanks!." in driver.page_source.lower(), log_test_result("Test 10: test_terms_and_conditions_link", "fail", "Redirected page content is incorrect!")
+        log_test_result("Test 10: test_terms_and_conditions_link", "pass")
+    except AssertionError as e:
+        log_test_result("Test 10: test_terms_and_conditions_link", "fail", str(e))
+        raise
+    except Exception as e:
+        log_test_result("Test 10: test_terms_and_conditions_link", "fail", str(e))
+        raise
