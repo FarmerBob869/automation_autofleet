@@ -181,7 +181,7 @@ def test_generate_multiple_uuids_100(driver):
 
 # TEST CASE 7: Test the count box and generate 1000 UUIDs
 def test_generate_multiple_uuids_1000(driver):
-    """Test adding 10 to the count box and generating multiple UUIDs."""
+    """Test adding 1000 to the count box and generating multiple UUIDs."""
     try:
         count_box = driver.find_element(By.ID, 'count')
         count_box.clear()
@@ -198,7 +198,7 @@ def test_generate_multiple_uuids_1000(driver):
         else:
             log_test_result("Test 7: test_generate_multiple_uuids_1000", "pass")  
             uuids = uuid_text.split("\n")
-            with open("generated_multiple_uuids.txt", "w") as file:
+            with open("generated_1000_uuids.txt", "w") as file:
                 for uuid in uuids:
                     file.write(uuid + "\n")
     except AssertionError as e:

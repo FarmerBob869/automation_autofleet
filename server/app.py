@@ -14,8 +14,18 @@ api_blueprint = Blueprint('api', __name__)
 
 URL = Config.URL
 
+def create_app(testing=False):
+    app = Flask(__name__)
+    CORS(app)
+    app.config.from_object(Config)
+
+    # Register blueprints
+    app.register_blueprint(api_blueprint, url_prefix='/api')
+
+    return app
+
 def run_test_generate_single_uuid():
-    chromedriver_path = r"C:\Users\darwin\Documents\project\automation_autofleet\tests\chromedriver.exe"
+    chromedriver_path = os.getenv('CHROMEDRIVER_PATH', 'chromedriver.exe')
     
     # Check if the file exists
     if not os.path.isfile(chromedriver_path):
@@ -54,12 +64,3 @@ def add_to_db():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-def create_app(testing=False):
-    app = Flask(__name__)
-    CORS(app)
-    app.config.from_object(Config)
-
-    # Register blueprints
-    app.register_blueprint(api_blueprint, url_prefix='/api')
-
-    return app
