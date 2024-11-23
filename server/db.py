@@ -4,6 +4,8 @@ from config import Config
 import time
 import logging
 
+
+
 ## Function to initialize MongoDB client with retries
 def initialize_mongo_client():
     retries = 5
@@ -30,6 +32,12 @@ def initialize_mongo_client():
     raise Exception("Failed to connect to MongoDB after several retries")
 
 
+# Initialize the MongoClient
+mongo_client = initialize_mongo_client()
+db = mongo_client[Config.MONGO_DB_NAME]
+
+
+# Writing to db. collection_name is required. data is a dictionary
 def write_to_db(collection_name, data):
     try:
         collection = db.get_collection(collection_name)
