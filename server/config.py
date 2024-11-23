@@ -1,4 +1,4 @@
-from dotenv import load_dotenv
+import os
 
 
 class Config:
@@ -10,4 +10,4 @@ class Config:
     MONGO_PASSWORD = os.getenv('MONGO_PASSWORD', 'password')
     MONGO_DB_NAME = os.getenv('MONGO_DATABASE', 'testdb')
     MONGO_URI = os.getenv('MONGO_URI') or f"mongodb://{MONGO_HOST}:{MONGO_PORT}/{MONGO_DB_NAME}"
-  
+    URL = "https://qatask.netlify.app/"

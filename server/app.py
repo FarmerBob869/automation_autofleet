@@ -12,7 +12,7 @@ import re
 
 api_blueprint = Blueprint('api', __name__)
 
-URL = "https://qatask.netlify.app/"
+URL = Config.URL
 
 def run_test_generate_single_uuid():
     chromedriver_path = r"C:\Users\darwin\Documents\project\automation_autofleet\tests\chromedriver.exe"
