@@ -6,6 +6,7 @@ from selenium.webdriver.chrome.options import Options
 import os
 import re
 
+#Test url
 URL = "https://qatask.netlify.app/"
 
 
