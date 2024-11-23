@@ -39,5 +39,7 @@ jobs:
         name: generated-uuids
         path: |
           generated_uuid.txt
-          generated_multiple_uuids.txt
+          generated_100_uuids.txt
+          generated_1000_uuids.txt
+          generated_single_uuid.txt
           tests/testresult.txt
